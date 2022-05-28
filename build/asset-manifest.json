@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/jiyun03/react_may/static/css/main.cbb07f1b.css",
+    "main.js": "/jiyun03/react_may/static/js/main.7994d803.js",
+    "index.html": "/jiyun03/react_may/index.html",
+    "main.cbb07f1b.css.map": "/jiyun03/react_may/static/css/main.cbb07f1b.css.map",
+    "main.7994d803.js.map": "/jiyun03/react_may/static/js/main.7994d803.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cbb07f1b.css",
+    "static/js/main.7994d803.js"
+  ]
+}
