@@ -1,9 +1,34 @@
 import Layout from '../common/Layout';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+const path = process.env.PUBLIC_URL;
 
 function Department() {
+	const [members, setMembers] = useState([]);
+
+	useEffect(()=>{
+		axios.get(`${path}/DB/member.json`).then((json) => {
+			setMembers(json.data.member)
+		})
+	}, [])
+
 	return (
 		<Layout name={'Department'}>
-			<p>Department</p>
+			<div className="wrap">
+				{members.map((mem, idx) => {
+					return(
+						<article key={idx}>
+							<div className='inner'>
+								<div className='pic'>
+									<img src={`${path}/img/${mem.pic}`} alt={mem.name} />
+								</div>
+								<h2>{mem.name}</h2>
+								<p>{mem.position}</p>
+							</div>
+						</article>
+					)
+				})}
+			</div>
 		</Layout>
 	);
 }
