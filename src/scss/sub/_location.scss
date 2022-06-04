@@ -1,5 +1,11 @@
 .Location {
-	figure {
-		background: lightgreen;
-	}
+  figure {
+    background: lightgreen;
+  }
+
+  #map {
+    width: 100%;
+    height: 400px;
+    background-color: #111;
+  }
 }
