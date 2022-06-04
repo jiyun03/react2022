@@ -4,24 +4,33 @@ import axios from "axios";
 import Popup from "../common/Popup";
 
 function Youtube() {
-  const [vids, setVids] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [Vids, setVids] = useState([]);
+  const [Open, setOpen] = useState(false);
 
-  const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
-  const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
-  const num = 5;
-  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+  const [Index, setIndex] = useState();
 
-  useEffect(() => {
+  const fetchYoutube = () => {
+    const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
+    const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
+    const num = 5;
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+
     axios.get(url).then((json) => {
       setVids(json.data.items);
     });
-  }, []);
+  };
+
+  const handlePopup = (index) => {
+    setOpen(true);
+    setIndex(index);
+  };
+
+  useEffect(fetchYoutube, []);
 
   return (
     <>
       <Layout name={"Youtube"}>
-        {vids.map((vid, idx) => {
+        {Vids.map((vid, idx) => {
           const tit = vid.snippet.title;
           const desc = vid.snippet.description;
           const date = vid.snippet.publishedAt;
@@ -33,12 +42,7 @@ function Youtube() {
                 <p>{desc.length > 300 ? desc.substr(0, 300) + "..." : tit}</p>
                 <span>{date.split("T")[0]}</span>
               </div>
-              <div
-                className="pic"
-                onClick={() => {
-                  setOpen(!open);
-                }}
-              >
+              <div className="pic" onClick={() => handlePopup(idx)}>
                 <img
                   src={vid.snippet.thumbnails.standard.url}
                   alt={vid.snippet.title}
@@ -48,8 +52,14 @@ function Youtube() {
           );
         })}
       </Layout>
-
-      {open ? <Popup setOpen={setOpen} /> : null}
+      {Open && (
+        <Popup setOpen={setOpen}>
+          <iframe
+            src={`https://www.youtube.com/embed/${Vids[Index].snippet.resourceId.videoId}`}
+            frameBorder="0"
+          ></iframe>
+        </Popup>
+      )}
     </>
   );
 }
