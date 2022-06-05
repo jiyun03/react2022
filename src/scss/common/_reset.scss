@@ -1,16 +1,39 @@
 * {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
+
 ul,
 ol,
 li {
-	list-style: none;
+  list-style: none;
 }
+
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
-body{
-	background-color: #efefef;
+
+body {
+  background-color: #efefef;
+}
+
+legend,
+caption {
+  position: absolute;
+  top: -999999px;
+}
+
+fieldset {
+  border: none;
+}
+
+table {
+  border: none;
+  border-collapse: collapse;
+
+  tr,
+  td {
+    border: none;
+  }
 }
