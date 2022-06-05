@@ -13,15 +13,15 @@ function Location() {
       imgPos: { offset: new kakao.maps.Point(116, 99) },
     },
     {
-      title: "한강",
-      latLng: new kakao.maps.LatLng(37.511507, 126.997067),
+      title: "한강 달빛광장",
+      latLng: new kakao.maps.LatLng(37.511428115136866, 126.99762475590865),
       imgSrc: `${path}/img/marker2.png`,
       imgSize: new kakao.maps.Size(232, 99),
       imgPos: { offset: new kakao.maps.Point(116, 99) },
     },
     {
-      title: "남산",
-      latLng: new kakao.maps.LatLng(37.551776, 126.988169),
+      title: "남산 서울타워",
+      latLng: new kakao.maps.LatLng(37.55163472656687, 126.98814003620416),
       imgSrc: `${path}/img/marker3.png`,
       imgSize: new kakao.maps.Size(232, 99),
       imgPos: { offset: new kakao.maps.Point(116, 99) },
@@ -30,21 +30,24 @@ function Location() {
   const [Info] = useState(info);
   const [Location, setLocation] = useState(null);
   const [Traffic, setTraffic] = useState(false);
+  const [Index, setIndex] = useState(0);
+  // const btns = useRef(null);
 
   const container = useRef(null);
   const options = {
-    center: Info[0].latLng,
+    center: Info[Index].latLng,
     level: 3,
   };
 
   useEffect(() => {
+    //지도 인스턴스가 추가될때마다 기존 map 프레임 안쪽의 내용일 일단은 제거하고 새로운 지도 생성
+    container.current.innerHTML = "";
     const map_instance = new kakao.maps.Map(container.current, options);
 
-    const markerPosition = Info[0].latLng;
-
-    const imageSrc = Info[0].imgSrc;
-    const imageSize = Info[0].imgSize;
-    const imageOption = Info[0].imgPost;
+    const markerPosition = Info[Index].latLng;
+    const imageSrc = Info[Index].imgSrc;
+    const imageSize = Info[Index].imgSize;
+    const imageOption = Info[Index].imgPos;
     const markerImage = new kakao.maps.MarkerImage(
       imageSrc,
       imageSize,
@@ -59,7 +62,22 @@ function Location() {
     //마커 인스턴스로부터 setMap함수 호출 (인수로 지도 인스턴스 전달)
     marker.setMap(map_instance);
     setLocation(map_instance);
-  }, []);
+
+    // 버튼 반복
+    // for (const btn of btns.current.children) {
+    //   btn.classList.remove("on");
+    //   btns.current.children[Index].classList.add("on");
+    // }
+
+    // 마커 중앙 위치
+    const mapCneter = () => {
+      console.log("함수호출");
+      map_instance.setCenter(Info[Index].latLng);
+    };
+    window.addEventListener("resize", mapCneter);
+
+    return () => window.removeEventListener("resize", mapCneter);
+  }, [Index]);
 
   useEffect(() => {
     if (Location) {
@@ -73,9 +91,23 @@ function Location() {
     <Layout name={"Location"}>
       <div id="map" ref={container}></div>
 
-      <button onClick={() => setTraffic(!Traffic)}>
-        {Traffic ? "Traffic OFF" : "Traffic ON"}
-      </button>
+      <div className="btnSet">
+        <button onClick={() => setTraffic(!Traffic)}>
+          {Traffic ? "Traffic OFF" : "Traffic ON"}
+        </button>
+
+        <ul>
+          {info.map((info, idx) => {
+            let on = "";
+            idx === Index ? (on = "on") : (on = "");
+            return (
+              <li key={idx} onClick={() => setIndex(idx)} className={on}>
+                {info.title}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </Layout>
   );
 }
