@@ -38,7 +38,7 @@ function Join() {
         "비밀번호는 5글자 이상, 영문, 숫자, 특수문자를 모두 포함해 주세요.";
     }
     // pwd2 체크 항목
-    if (val.pwd1 !== val.pwd2) {
+    if (val.pwd1 !== val.pwd2 || !val.pwd2) {
       errs.pwd2 = "비밀번호를 동일하게 입력해 주세요.";
     }
 
@@ -89,6 +89,7 @@ function Join() {
                     value={Val.userid}
                     onChange={handleChange}
                   />
+                  <span className="err">{Err.userid}</span>
                 </td>
               </tr>
               {/* email */}
@@ -105,6 +106,7 @@ function Join() {
                     value={Val.email}
                     onChange={handleChange}
                   />
+                  <span className="err">{Err.email}</span>
                 </td>
               </tr>
               {/* pwd1 */}
@@ -121,6 +123,7 @@ function Join() {
                     value={Val.pwd1}
                     onChange={handleChange}
                   />
+                  <span className="err">{Err.pwd1}</span>
                 </td>
               </tr>
               {/* pwd2 */}
@@ -137,6 +140,7 @@ function Join() {
                     value={Val.pwd2}
                     onChange={handleChange}
                   />
+                  <span className="err">{Err.pwd2}</span>
                 </td>
               </tr>
               {/* btnSet */}
