@@ -5,6 +5,8 @@ function Join() {
   const initVal = {
     userid: "",
     email: "",
+    pwd1: "",
+    pwd2: "",
   };
 
   const [Val, setVal] = useState(initVal);
@@ -13,14 +15,31 @@ function Join() {
   // 순서3 : 인수로 전달되는 값으로 인증처리 해서 에러 객체 값 반환 함수
   const check = (val) => {
     const errs = {};
+    const eng = /[a-zA-Z]/;
+    const num = /[0-9]/;
+    const spc = /[!@#$%^&*()_+]/;
 
     // userid 체크 항목
     if (val.userid.length < 5) {
-      errs.userid = "아이디를 5글자 이상 입력하세요";
+      errs.userid = "아이디를 5글자 이상 입력해 주세요.";
     }
     // email 체크 항목
     if (val.email.length < 8 || !/@/.test(val.email)) {
       errs.email = "이메일은 최소 8글자 이상 @를 포함해 주세요.";
+    }
+    // pwd1 체크 항목
+    if (
+      val.pwd1.length < 5 ||
+      !eng.test(val.pwd1) ||
+      !num.test(val.pwd1) ||
+      !spc.test(val.pwd1)
+    ) {
+      errs.pwd1 =
+        "비밀번호는 5글자 이상, 영문, 숫자, 특수문자를 모두 포함해 주세요.";
+    }
+    // pwd2 체크 항목
+    if (val.pwd1 !== val.pwd2) {
+      errs.pwd2 = "비밀번호를 동일하게 입력해 주세요.";
     }
 
     return errs;
@@ -43,6 +62,10 @@ function Join() {
     setErr(check(Val));
   };
 
+  useEffect(() => {
+    console.log(Err);
+  }, [Err]);
+
   return (
     <Layout name={"Join"}>
       {/* 순서1 : 전송 버튼을 눌러서 handleSubmit 함수 호출 */}
@@ -52,6 +75,7 @@ function Join() {
           <table border="1">
             <caption>회원가입 정보 입력</caption>
             <tbody>
+              {/* userid */}
               <tr>
                 <th scope="row">
                   <label htmlFor="userid">USER ID</label>
@@ -67,6 +91,7 @@ function Join() {
                   />
                 </td>
               </tr>
+              {/* email */}
               <tr>
                 <th scope="row">
                   <label htmlFor="email">E-MAIL</label>
@@ -82,6 +107,39 @@ function Join() {
                   />
                 </td>
               </tr>
+              {/* pwd1 */}
+              <tr>
+                <th scope="row">
+                  <label htmlFor="pwd1">PASSWORD</label>
+                </th>
+                <td>
+                  <input
+                    type="password"
+                    id="pwd1"
+                    name="pwd1"
+                    placeholder="비밀번호를 입력하세요"
+                    value={Val.pwd1}
+                    onChange={handleChange}
+                  />
+                </td>
+              </tr>
+              {/* pwd2 */}
+              <tr>
+                <th scope="row">
+                  <label htmlFor="pwd2">PASSWORD</label>
+                </th>
+                <td>
+                  <input
+                    type="password"
+                    id="pwd2"
+                    name="pwd2"
+                    placeholder="비밀번호를 재입력하세요"
+                    value={Val.pwd2}
+                    onChange={handleChange}
+                  />
+                </td>
+              </tr>
+              {/* btnSet */}
               <tr>
                 <th colSpan="2">
                   <input type="reset" value="CANCEL" />
