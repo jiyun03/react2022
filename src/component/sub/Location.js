@@ -40,7 +40,7 @@ function Location() {
   };
 
   useEffect(() => {
-    //지도 인스턴스가 추가될때마다 기존 map 프레임 안쪽의 내용일 일단은 제거하고 새로운 지도 생성
+    // 지도 인스턴스가 추가될때마다 기존 map 프레임 안쪽의 내용일 일단은 제거하고 새로운 지도 생성
     container.current.innerHTML = "";
     const map_instance = new kakao.maps.Map(container.current, options);
 
@@ -59,7 +59,7 @@ function Location() {
       image: markerImage,
     });
 
-    //마커 인스턴스로부터 setMap함수 호출 (인수로 지도 인스턴스 전달)
+    // 마커 인스턴스로부터 setMap함수 호출 (인수로 지도 인스턴스 전달)
     marker.setMap(map_instance);
     setLocation(map_instance);
 
@@ -69,7 +69,7 @@ function Location() {
     //   btns.current.children[Index].classList.add("on");
     // }
 
-    //스카이뷰 전환버튼 추가
+    // 스카이뷰 전환버튼 추가
     const mapTypeControl = new kakao.maps.MapTypeControl();
     map_instance.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPLEFT);
 

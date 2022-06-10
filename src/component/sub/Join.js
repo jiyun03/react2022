@@ -129,7 +129,7 @@ function Join() {
               {/* pwd2 */}
               <tr>
                 <th scope="row">
-                  <label htmlFor="pwd2">PASSWORD</label>
+                  <label htmlFor="pwd2">RE-PASSWORD</label>
                 </th>
                 <td>
                   <input
