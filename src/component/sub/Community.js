@@ -5,7 +5,14 @@ function Community() {
   const input = useRef(null);
   const textarea = useRef(null);
 
-  const [Posts, setPosts] = useState([]);
+  const dummyPosts = [
+    { title: "Hello5", content: "Here comes description in detail." },
+    { title: "Hello4", content: "Here comes description in detail." },
+    { title: "Hello3", content: "Here comes description in detail." },
+    { title: "Hello2", content: "Here comes description in detail." },
+    { title: "Hello1", content: "Here comes description in detail." },
+  ];
+  const [Posts, setPosts] = useState(dummyPosts);
 
   const resetPosts = () => {
     input.current.value = "";
@@ -29,6 +36,10 @@ function Community() {
     ]);
 
     resetPosts();
+  };
+
+  const deletePost = (index) => {
+    setPosts(Posts.filter((post, idx) => idx === index));
   };
 
   useEffect(() => {
@@ -55,8 +66,14 @@ function Community() {
         {Posts.map((post, idx) => {
           return (
             <article key={idx}>
-              <h2>{post.title}</h2>
-              <p>{post.content}</p>
+              <div className="txt">
+                <h2>{post.title}</h2>
+                <p>{post.content}</p>
+              </div>
+              <div className="btnSet">
+                <button>EDIT</button>
+                <button onClick={() => deletePost(idx)}>DELETE</button>
+              </div>
             </article>
           );
         })}
