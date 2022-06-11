@@ -7,6 +7,7 @@ function Join() {
     email: "",
     pwd1: "",
     pwd2: "",
+    gender: null,
   };
 
   const [Val, setVal] = useState(initVal);
@@ -41,6 +42,10 @@ function Join() {
     if (val.pwd1 !== val.pwd2 || !val.pwd2) {
       errs.pwd2 = "비밀번호를 동일하게 입력해 주세요.";
     }
+    // gender 체크 항목
+    if (!val.gender) {
+      errs.gender = "성별을 선택하세요.";
+    }
 
     return errs;
   };
@@ -53,6 +58,12 @@ function Join() {
     // 객체에서 변수값을 key 값으로 활용하려면 객체안에서 변수명을 대괄호로 묶어줌
     // setVal({...Val, userid : 현재 입력된 값})
     setVal({ ...Val, [name]: value });
+  };
+
+  const handleRadio = (e) => {
+    const { name } = e.target;
+    const isCheck = e.target.checked;
+    setVal({ ...Val, [name]: isCheck });
   };
 
   const handleSubmit = (e) => {
@@ -107,6 +118,28 @@ function Join() {
                     onChange={handleChange}
                   />
                   <span className="err">{Err.email}</span>
+                </td>
+              </tr>
+              {/* gender */}
+              <tr>
+                <th scope="row">Gender</th>
+                <td>
+                  <label htmlFor="male">Male</label>
+                  <input
+                    type="radio"
+                    id="male"
+                    name="gender"
+                    onChange={handleRadio}
+                  />
+
+                  <label htmlFor="female">Female</label>
+                  <input
+                    type="radio"
+                    id="female"
+                    name="gender"
+                    onChange={handleRadio}
+                  />
+                  <span className="err">{Err.gender}</span>
                 </td>
               </tr>
               {/* pwd1 */}
