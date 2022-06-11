@@ -10,7 +10,7 @@ function Join() {
     pwd2: "",
     gender: null,
     interests: null,
-    edu: null,
+    edu: "",
     comments: "",
   };
 
@@ -110,6 +110,7 @@ function Join() {
 
   useEffect(() => {
     const len = Object.keys(Err).length;
+    console.log(Object.keys(Err).length);
     // (len === 0) ? setSuccess(true) : setSuccess(false)
 
     if (len === 0 && Submit) {
@@ -258,7 +259,7 @@ function Join() {
                 </th>
                 <td>
                   <select name="edu" id="edu" onChange={handleSelect}>
-                    <option value="">학력을 선택하세요</option>
+                    <option value="1234">학력을 선택하세요</option>
                     <option value="elementary-school">초등학교 졸업</option>
                     <option value="middle-school">중학교 졸업</option>
                     <option value="high-school">고등학교 졸업</option>
