@@ -8,10 +8,14 @@ function Join() {
     pwd1: "",
     pwd2: "",
     gender: null,
+    interests: null,
+    edu: null,
+    comments: "",
   };
 
   const [Val, setVal] = useState(initVal);
   const [Err, setErr] = useState({});
+  const [Success, setSuccess] = useState(false);
 
   // 순서3 : 인수로 전달되는 값으로 인증처리 해서 에러 객체 값 반환 함수
   const check = (val) => {
@@ -46,14 +50,23 @@ function Join() {
     if (!val.gender) {
       errs.gender = "성별을 선택하세요.";
     }
+    if (!val.interests) {
+      errs.interests = "관심사를 하나이상 선택하세요.";
+    }
+    if (val.edu === "") {
+      errs.edu = "최종학력을 선택하세요.";
+    }
+    if (val.comments.length < 20) {
+      errs.comments = "남기는 말은 20글자 이상 입력하세요.";
+    }
 
     return errs;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log("name : ", name);
-    console.log("value : ", value);
+    // console.log("name : ", name);
+    // console.log("value : ", value);
     // 객체에서 변수값을 key에 넣을 수가 없음
     // 객체에서 변수값을 key 값으로 활용하려면 객체안에서 변수명을 대괄호로 묶어줌
     // setVal({...Val, userid : 현재 입력된 값})
@@ -66,6 +79,24 @@ function Join() {
     setVal({ ...Val, [name]: isCheck });
   };
 
+  const handleCheck = (e) => {
+    let isCheck = false;
+    const { name } = e.target;
+    const inputs = e.target.parentElement.querySelectorAll("input");
+
+    inputs.forEach((el) => {
+      if (el.checked) isCheck = true;
+    });
+
+    setVal({ ...Val, [name]: isCheck });
+  };
+
+  const handleSelect = (e) => {
+    const { name, value } = e.target;
+    // const isSelected = e.target.option[e.target.selectedIndex].value
+    setVal({ ...Val, [name]: value });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // 순서2 : check 함수를 호출해서 현재 Val state에 담겨 있는 값을 check 함수의 인수로 전달해서 err 객체를 생성해서 반환
@@ -74,7 +105,16 @@ function Join() {
   };
 
   useEffect(() => {
-    console.log(Err);
+    const len = Object.keys(Err).length;
+    // (len === 0) ? setSuccess(true) : setSuccess(false)
+
+    if (len === 0) {
+      setSuccess(true);
+      console.log("인증 통과");
+    } else {
+      setSuccess(false);
+      console.log("인증 실패");
+    }
   }, [Err]);
 
   return (
@@ -122,7 +162,7 @@ function Join() {
               </tr>
               {/* gender */}
               <tr>
-                <th scope="row">Gender</th>
+                <th scope="row">GENDER</th>
                 <td>
                   <label htmlFor="male">Male</label>
                   <input
@@ -140,6 +180,37 @@ function Join() {
                     onChange={handleRadio}
                   />
                   <span className="err">{Err.gender}</span>
+                </td>
+              </tr>
+              {/* interests */}
+              <tr>
+                <th scope="row">INTERESTS</th>
+                <td>
+                  <label htmlFor="sports">Sports</label>
+                  <input
+                    type="checkbox"
+                    id="sports"
+                    name="interests"
+                    onChange={handleCheck}
+                  />
+
+                  <label htmlFor="music">Music</label>
+                  <input
+                    type="checkbox"
+                    id="music"
+                    name="interests"
+                    onChange={handleCheck}
+                  />
+
+                  <label htmlFor="game">Game</label>
+                  <input
+                    type="checkbox"
+                    id="game"
+                    name="interests"
+                    onChange={handleCheck}
+                  />
+
+                  <span className="err">{Err.interests}</span>
                 </td>
               </tr>
               {/* pwd1 */}
@@ -174,6 +245,39 @@ function Join() {
                     onChange={handleChange}
                   />
                   <span className="err">{Err.pwd2}</span>
+                </td>
+              </tr>
+              {/* edu */}
+              <tr>
+                <th scope="row">
+                  <label htmlFor="edu">EDUCATION</label>
+                </th>
+                <td>
+                  <select name="edu" id="edu" onChange={handleSelect}>
+                    <option value="">학력을 선택하세요</option>
+                    <option value="elementary-school">초등학교 졸업</option>
+                    <option value="middle-school">중학교 졸업</option>
+                    <option value="high-school">고등학교 졸업</option>
+                    <option value="college">대학교 졸업</option>
+                  </select>
+                  <span className="err">{Err.edu}</span>
+                </td>
+              </tr>
+              {/* comments */}
+              <tr>
+                <th scope="row">
+                  <label htmlFor="comments">COMMENTS</label>
+                </th>
+                <td>
+                  <textarea
+                    name="comments"
+                    id="comments"
+                    cols="30"
+                    rows="5"
+                    placeholder="남기는 말을 입력해 주세요."
+                    onChange={handleChange}
+                  ></textarea>
+                  <span className="err">{Err.comments}</span>
                 </td>
               </tr>
               {/* btnSet */}
