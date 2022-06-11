@@ -1,5 +1,6 @@
 import Layout from "../common/Layout";
 import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 function Join() {
   const initVal = {
@@ -16,6 +17,8 @@ function Join() {
   const [Val, setVal] = useState(initVal);
   const [Err, setErr] = useState({});
   const [Success, setSuccess] = useState(false);
+  const [Submit, setSubmit] = useState(false);
+  const history = useHistory();
 
   // 순서3 : 인수로 전달되는 값으로 인증처리 해서 에러 객체 값 반환 함수
   const check = (val) => {
@@ -101,6 +104,7 @@ function Join() {
     e.preventDefault();
     // 순서2 : check 함수를 호출해서 현재 Val state에 담겨 있는 값을 check 함수의 인수로 전달해서 err 객체를 생성해서 반환
     // 그렇게 반환된 err 객체를 다시 Err state에 옮겨담음
+    setSubmit(true);
     setErr(check(Val));
   };
 
@@ -108,12 +112,12 @@ function Join() {
     const len = Object.keys(Err).length;
     // (len === 0) ? setSuccess(true) : setSuccess(false)
 
-    if (len === 0) {
+    if (len === 0 && Submit) {
       setSuccess(true);
-      console.log("인증 통과");
+      history.push("/");
+      window.scroll(0, 0);
     } else {
       setSuccess(false);
-      console.log("인증 실패");
     }
   }, [Err]);
 
