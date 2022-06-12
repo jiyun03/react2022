@@ -1,12 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function News() {
   const getLocalDate = () => {
     const data = localStorage.getItem("post");
-    return JSON.parse(data);
+
+    const dummyPosts = [
+      { title: "Hello5", content: "Here comes description in detail." },
+      { title: "Hello4", content: "Here comes description in detail." },
+      { title: "Hello3", content: "Here comes description in detail." },
+      { title: "Hello2", content: "Here comes description in detail." },
+      { title: "Hello1", content: "Here comes description in detail." },
+    ];
+
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return dummyPosts;
+    }
   };
 
   const [Posts] = useState(getLocalDate());
+
+  useEffect(() => {
+    localStorage.setItem("post", JSON.stringify(Posts));
+  }, []);
 
   return (
     <section id="news">

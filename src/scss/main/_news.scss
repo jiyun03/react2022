@@ -3,8 +3,10 @@
   height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
   font-size: 10vw;
+
   article {
     width: 15%;
     min-height: 180px;
@@ -20,6 +22,25 @@
     p {
       font: 12px/1.2 "arial";
       color: #777;
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  #news {
+    padding: 0px 30px;
+
+    article {
+      width: 48%;
+      margin-bottom: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: $mp) {
+  #news {
+    article {
+      width: 100%;
     }
   }
 }

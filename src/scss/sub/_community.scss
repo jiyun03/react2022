@@ -8,6 +8,7 @@
       border: 1px solid #bbb;
       padding: 50px;
       margin-bottom: 50px;
+
       input[type="text"],
       textarea {
         width: 50%;
@@ -31,49 +32,107 @@
         }
       }
     }
+
     .showBox {
       border: 1px solid #bbb;
       padding: 50px;
+
       article {
-        background-color: #fff;
+        background: #fff;
         padding: 30px 40px;
         margin-bottom: 40px;
         display: flex;
-        justify-content: space-around;
+        flex-wrap: wrap;
+        justify-content: space-between;
         align-content: center;
-      }
-      .txt {
-        width: 75%;
-        input,
-        textarea {
-          width: 70%;
-          border: 1px solid #bbb;
-          padding: 8px 12px;
-          margin-bottom: 10px;
-          resize: none;
+
+        .txt {
+          width: 75%;
+
+          input,
+          textarea {
+            width: 70%;
+            border: 1px solid #bbb;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            resize: none;
+          }
+        }
+        .btnSet {
+          display: flex;
+          align-items: center;
+          width: 25%;
+          justify-content: flex-end;
+
+          button {
+            margin-left: 10px;
+            border: 1px solid #bbb;
+            width: 80px;
+            height: 26px;
+            font: 11px/1 "arial";
+            color: #999;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.5s;
+
+            &:hover {
+              border: 1px solid #333;
+              background: #333;
+              color: orange;
+            }
+          }
         }
       }
-      .btnSet {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        width: 25%;
-        button {
-          margin-left: 10px;
-          border: 1px solid #bbb;
-          width: calc(50% - 5px);
-          height: 26px;
-          font: 11px/1 "arial";
-          color: #999;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: 0.3s;
-          &:hover {
-            border-color: #333;
-            background-color: #333;
-            color: orange;
+    }
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .Community {
+    > .inner {
+      .inputBox {
+        input[type="text"],
+        textarea {
+          width: 100%;
+        }
+        .btnSet {
+          display: flex;
+          justify-content: space-between;
+
+          button {
+            width: 48%;
+            margin-right: 0px;
+          }
+        }
+      }
+
+      .showBox {
+        article {
+          .txt {
+            width: 100%;
+
+            input,
+            textarea {
+              width: 100%;
+            }
+          }
+          .btnSet {
+            width: 100%;
+            justify-content: space-between;
+            margin-top: 40px;
+
+            button {
+              margin-left: 0px;
+              width: 48%;
+
+              &:hover {
+                border: 1px solid #333;
+                background: #333;
+                color: orange;
+              }
+            }
           }
         }
       }
