@@ -4,6 +4,8 @@ import Layout from "../common/Layout";
 function Community() {
   const input = useRef(null);
   const textarea = useRef(null);
+  const inputEdit = useRef(null);
+  const textareaEdit = useRef(null);
 
   const dummyPosts = [
     { title: "Hello5", content: "Here comes description in detail." },
@@ -17,6 +19,8 @@ function Community() {
   const resetPosts = () => {
     input.current.value = "";
     textarea.current.value = "";
+    inputEdit.current.value = "";
+    textareaEdit.current.value = "";
   };
 
   const createPost = () => {
@@ -43,6 +47,45 @@ function Community() {
     setPosts(Posts.filter((post, idx) => idx !== index));
   };
 
+  // 게시물을 수정 가능 모드로 변경하는 함수 정의
+  const enableUpdate = (index) => {
+    setPosts(
+      Posts.map((post, idx) => {
+        if (idx === index) post.enableUpdate = true;
+        return post;
+      })
+    );
+  };
+
+  // 게시글을 다시 출력모드로 변경하는 함수 정의
+  const disableUpdate = (index) => {
+    setPosts(
+      Posts.map((post, idx) => {
+        if (idx === index) post.enableUpdate = false;
+        return post;
+      })
+    );
+  };
+
+  // 게시물 수정 함수
+  const updatePost = (index) => {
+    if (!inputEdit.current.value.trim() || !textareaEdit.current.value.trim()) {
+      resetPosts();
+      return alert("수정할 제목과 본문을 입력하세요");
+    }
+
+    setPosts(
+      Posts.map((post, idx) => {
+        if (idx === index) {
+          post.title = inputEdit.current.value;
+          post.content = textareaEdit.current.value;
+          post.enableUpdate = false;
+        }
+        return post;
+      })
+    );
+  };
+
   useEffect(() => {
     console.log(Posts);
   }, [Posts]);
@@ -67,14 +110,43 @@ function Community() {
         {Posts.map((post, idx) => {
           return (
             <article key={idx}>
-              <div className="txt">
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-              </div>
-              <div className="btnSet">
-                <button>EDIT</button>
-                <button onClick={() => deletePost(idx)}>DELETE</button>
-              </div>
+              {post.enableUpdate ? (
+                //수정 모드 UI
+                <>
+                  <div className="txt">
+                    <input
+                      type="text"
+                      defaultValue={post.title}
+                      ref={inputEdit}
+                    />
+                    <br />
+                    <textarea
+                      cols="30"
+                      rows="5"
+                      defaultValue={post.content}
+                      ref={textareaEdit}
+                    ></textarea>
+                  </div>
+
+                  <div className="btnSet">
+                    <button onClick={() => disableUpdate(idx)}>CANCEL</button>
+                    <button onClick={() => updatePost(idx)}>SAVE</button>
+                  </div>
+                </>
+              ) : (
+                //출력모드 UI
+                <>
+                  <div className="txt">
+                    <h2>{post.title}</h2>
+                    <p>{post.content}</p>
+                  </div>
+
+                  <div className="btnSet">
+                    <button onClick={() => enableUpdate(idx)}>EDIT</button>
+                    <button onClick={() => deletePost(idx)}>DELETE</button>
+                  </div>
+                </>
+              )}
             </article>
           );
         })}
