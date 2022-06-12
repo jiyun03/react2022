@@ -15,12 +15,13 @@ function Community() {
     { title: "Hello1", content: "Here comes description in detail." },
   ];
   const [Posts, setPosts] = useState(dummyPosts);
+  const [Allowed, setAllowed] = useState(true);
 
   const resetPosts = () => {
     input.current.value = "";
     textarea.current.value = "";
-    inputEdit.current.value = "";
-    textareaEdit.current.value = "";
+    if (inputEdit.current) inputEdit.current.value = "";
+    if (textareaEdit.current) textareaEdit.current.value = "";
   };
 
   const createPost = () => {
@@ -49,6 +50,8 @@ function Community() {
 
   // 게시물을 수정 가능 모드로 변경하는 함수 정의
   const enableUpdate = (index) => {
+    if (!Allowed) return;
+    setAllowed(false);
     setPosts(
       Posts.map((post, idx) => {
         if (idx === index) post.enableUpdate = true;
@@ -59,6 +62,7 @@ function Community() {
 
   // 게시글을 다시 출력모드로 변경하는 함수 정의
   const disableUpdate = (index) => {
+    setAllowed(true);
     setPosts(
       Posts.map((post, idx) => {
         if (idx === index) post.enableUpdate = false;
