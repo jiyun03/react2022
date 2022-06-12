@@ -39,7 +39,8 @@ function Community() {
   };
 
   const deletePost = (index) => {
-    setPosts(Posts.filter((post, idx) => idx === index));
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
+    setPosts(Posts.filter((post, idx) => idx !== index));
   };
 
   useEffect(() => {
