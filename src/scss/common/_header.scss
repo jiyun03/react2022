@@ -1,91 +1,93 @@
 header {
-	width: 100%;
-	background: #fff;
-	border-bottom: 1px solid #999;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #999;
 
-	.inner {
-		width: 1180px;
-		height: 80px;
-		margin: 0px auto;
-		position: relative;
+  .inner {
+    width: 1180px;
+    height: 80px;
+    margin: 0px auto;
+    position: relative;
 
-		h1 {
-			position: absolute;
-			bottom: 20px;
-			left: 0px;
+    h1 {
+      position: absolute;
+      bottom: 20px;
+      left: 0px;
 
-			a {
-				font: bold 24px/1 'arial';
-				color: #555;
-			}
-		}
+      a {
+        font: bold 24px/1 "arial";
+        color: #555;
+      }
+    }
 
-		#gnb {
-			position: absolute;
-			bottom: 0px;
-			right: 0px;
+    #gnb {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
 
-			li {
-				float: left;
+      li {
+        float: left;
 
-				a {
-					display: inline-block;
-					padding: 20px 30px;
-					font: bold 14px/1 'arial';
-					color: #888;
-				}
-			}
-		}
+        a {
+          display: inline-block;
+          padding: 20px 30px;
+          font: bold 14px/1 "arial";
+          color: #888;
+        }
+      }
+    }
 
-		.fa-bars {
-			position: absolute;
-			right: 30px;
-			bottom: 20px;
-			font-size: 24px;
-			color: #888;
-			display: none;
-		}
-	}
+    .fa-bars {
+      position: absolute;
+      right: 30px;
+      bottom: 20px;
+      font-size: 24px;
+      color: #888;
+      display: none;
+    }
+  }
 
-	&.main {
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		z-index: 2;
-		background: transparent;
+  &.main {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+    background: transparent;
 
-		> .inner {
-			h1 {
-				color: #fff;
-			}
+    > .inner {
+      h1 {
+        a {
+          color: #fff;
+        }
+      }
 
-			#gnb {
-				li a {
-					color: #fff;
-				}
-			}
-			.fa-bars {
-				color: #fff;
-			}
-		}
-	}
+      #gnb {
+        li a {
+          color: #fff;
+        }
+      }
+      .fa-bars {
+        color: #fff;
+      }
+    }
+  }
 }
 
 //tablet
 @media screen and (max-width: $tablet) {
-	header {
-		.inner {
-			width: 100%;
+  header {
+    .inner {
+      width: 100%;
 
-			h1 {
-				left: 30px;
-			}
-			#gnb {
-				display: none;
-			}
-			.fa-bars {
-				display: block;
-			}
-		}
-	}
+      h1 {
+        left: 30px;
+      }
+      #gnb {
+        display: none;
+      }
+      .fa-bars {
+        display: block;
+      }
+    }
+  }
 }

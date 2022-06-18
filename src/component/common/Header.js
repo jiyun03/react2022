@@ -3,13 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 function Header(props) {
-	const active = { color: '#000' };
+  const active = { color: "#000" };
+  const active2 = { color: "#fff" };
 
   return (
     <header className={props.type}>
       <div className="inner">
         <h1>
-          <NavLink to="/">LOGO</NavLink>
+          <NavLink
+            activeStyle={props.type === "main" ? active2 : active}
+            to="/"
+          >
+            LOGO
+          </NavLink>
         </h1>
 
         <ul id="gnb">
