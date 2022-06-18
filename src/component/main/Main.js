@@ -12,19 +12,22 @@ function Main() {
   const main = useRef(null);
   const pos = useRef([]);
   const [Index, setIndex] = useState(0);
+  const [Scrolled, setScrolled] = useState(0);
   let secs = null;
+  let base = 0;
 
   const getPos = () => {
     pos.current = [];
     secs = main.current.querySelectorAll(".myScroll");
-
     for (const sec of secs) pos.current.push(sec.offsetTop);
   };
 
   const activation = () => {
     const scroll = window.scrollY;
     const btns = main.current.querySelectorAll(".scroll_navi li");
-    const base = -(window.innerHeight * 0.4);
+    base = -(window.innerHeight * 0.4);
+
+    setScrolled(scroll);
 
     pos.current.map((pos, idx) => {
       if (scroll >= pos + base) {
@@ -61,7 +64,7 @@ function Main() {
       <Header type={"main"} />
       <Visual />
       <News />
-      <Pics />
+      <Pics Scrolled={Scrolled} start={pos.current[2]} base={base} />
       <Vids />
       <Btns setIndex={setIndex} />
     </main>

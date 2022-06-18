@@ -1,9 +1,10 @@
-import React from "react";
+function Pics({ Scrolled, start, base }) {
+  const position = Scrolled - start - base;
 
-function Pics() {
   return (
     <section id="pics" className="myScroll">
-      Pics
+      {/* <p style={position >= 0 ? { left: 100 + position } : null}>FLICKR</p> */}
+      <p style={{ left: 100 + position }}>FLICKR</p>
     </section>
   );
 }

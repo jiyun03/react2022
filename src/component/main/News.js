@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 
 function News() {
-  const getLocalDate = () => {
-    const data = localStorage.getItem("post");
-
+  const getLocalData = () => {
     const dummyPosts = [
       { title: "Hello5", content: "Here comes description in detail." },
       { title: "Hello4", content: "Here comes description in detail." },
@@ -12,6 +10,8 @@ function News() {
       { title: "Hello1", content: "Here comes description in detail." },
     ];
 
+    const data = localStorage.getItem("post");
+
     if (data) {
       return JSON.parse(data);
     } else {
@@ -19,7 +19,7 @@ function News() {
     }
   };
 
-  const [Posts] = useState(getLocalDate());
+  const [Posts] = useState(getLocalData());
 
   useEffect(() => {
     localStorage.setItem("post", JSON.stringify(Posts));
