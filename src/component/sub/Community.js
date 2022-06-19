@@ -70,6 +70,7 @@ function Community() {
 
   // 게시물 수정 함수
   const updatePost = (index) => {
+    setAllowed(true);
     if (!inputEdit.current.value.trim() || !textareaEdit.current.value.trim()) {
       resetPosts();
       return alert("수정할 제목과 본문을 입력하세요");
