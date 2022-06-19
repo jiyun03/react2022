@@ -1,57 +1,55 @@
 import Anime from "../../asset/anim.js";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 function Visual() {
   const panel = useRef(null);
-  let panel_li = null;
-  let len = null;
-  const [Index, setIndex] = useState(0);
-  const [EnableClick, setEnableClick] = useState(true);
+  const navi = useRef(null);
+  const Index = useRef(0);
+  const EnableClick = useRef(true);
+  // const [Index, setIndex] = useState(0);
+  // const [EnableClick, setEnableClick] = useState(true);
 
-  const showPrev = () => {
-    if (!EnableClick) return;
-    panel_li = panel.current.children;
-    len = panel_li.length;
+  const init = () => {
+    const panel_li = panel.current.children;
+    const len = panel_li.length;
     const currentEl = panel.current.querySelector(".on");
     const current_index = Array.from(panel_li).indexOf(currentEl);
+    return [currentEl, current_index, len];
+  };
+
+  const showPrev = () => {
+    const [currentEl, current_index, len] = init();
     let prev_index = null;
 
     current_index !== 0
       ? (prev_index = current_index - 1)
       : (prev_index = len - 1);
 
-    showSlide(currentEl, prev_index, -1);
+    if (EnableClick.current) showSlide(currentEl, prev_index, -1);
   };
 
   const showNext = () => {
-    if (!EnableClick) return;
-    panel_li = panel.current.children;
-    len = panel_li.length;
-    const currentEl = panel.current.querySelector(".on");
-    const current_index = Array.from(panel_li).indexOf(currentEl);
+    const [currentEl, current_index, len] = init();
     let next_index = null;
 
     current_index !== len - 1
       ? (next_index = current_index + 1)
       : (next_index = 0);
 
-    showSlide(currentEl, next_index, 1);
+    if (EnableClick.current) showSlide(currentEl, next_index, 1);
   };
 
   const showNavi = (index) => {
-    if (!EnableClick) return;
-    panel_li = panel.current.children;
-    len = panel_li.length;
+    const [currentEl, current_index] = init();
     const target_index = index;
-    const currentEl = panel.current.querySelector(".on");
-    const current_index = Array.from(panel_li).indexOf(currentEl);
 
+    if (!EnableClick.current) return;
     if (target_index > current_index) showSlide(currentEl, target_index, 1);
     if (target_index < current_index) showSlide(currentEl, target_index, -1);
   };
 
   const showSlide = (el, index, direction) => {
-    setEnableClick(false);
+    EnableClick.current = false;
     const panel_li = panel.current.children;
 
     // 기존 활성화 패널 왼쪽 밖으로 모션 이동
@@ -76,11 +74,17 @@ function Visual() {
       duration: 500,
       callback: () => {
         panel_li[index].classList.add("on");
-        setEnableClick(true);
+        EnableClick.current = true;
       },
     });
 
-    setIndex(index);
+    Index.current = index;
+    activation(index);
+  };
+
+  const activation = (index) => {
+    for (const el of navi.current.children) el.classList.remove("on");
+    navi.current.children[index].classList.add("on");
   };
 
   return (
@@ -104,10 +108,10 @@ function Visual() {
           </li>
         </ul>
 
-        <ul className="navi">
+        <ul className="navi" ref={navi}>
           {[0, 1, 2, 3, 4].map((num) => {
             let on = "";
-            Index === num ? (on = "on") : (on = "");
+            Index.current === num ? (on = "on") : (on = "");
             return (
               <li key={num} className={on} onClick={() => showNavi(num)}></li>
             );
