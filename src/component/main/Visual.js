@@ -1,10 +1,11 @@
 import Anime from "../../asset/anim.js";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function Visual() {
   const panel = useRef(null);
   let panel_li = null;
   let len = null;
+  const [Index, setIndex] = useState(null);
 
   const showPrev = () => {
     panel_li = panel.current.children;
@@ -34,6 +35,17 @@ function Visual() {
     showSlide(currentEl, next_index, 1);
   };
 
+  const showNavi = (index) => {
+    panel_li = panel.current.children;
+    len = panel_li.length;
+    const target_index = index;
+    const currentEl = panel.current.querySelector(".on");
+    const current_index = Array.from(panel_li).indexOf(currentEl);
+
+    if (target_index > current_index) showSlide(currentEl, target_index, 1);
+    if (target_index < current_index) showSlide(currentEl, target_index, -1);
+  };
+
   const showSlide = (el, index, direction) => {
     const panel_li = panel.current.children;
 
@@ -61,6 +73,8 @@ function Visual() {
         panel_li[index].classList.add("on");
       },
     });
+
+    setIndex(index);
   };
 
   return (
@@ -85,11 +99,13 @@ function Visual() {
         </ul>
 
         <ul className="navi">
-          <li className="on"></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
+          {[0, 1, 2, 3, 4].map((num) => {
+            let on = "";
+            Index === num ? (on = "on") : (on = "");
+            return (
+              <li key={num} className={on} onClick={() => showNavi(num)}></li>
+            );
+          })}
         </ul>
 
         <button className="prev" onClick={showPrev}></button>
