@@ -89,8 +89,6 @@ function Community() {
   };
 
   useEffect(() => {
-    console.log(Posts);
-
     localStorage.setItem("post", JSON.stringify(Posts));
   }, [Posts]);
 

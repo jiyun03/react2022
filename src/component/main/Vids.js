@@ -12,9 +12,15 @@ function Vids() {
         pagination={{ clickable: true }}
         modules={[Navigation, Pagination]}
         loop={true}
-        spaceBetween={50}
-        slidesPerView={3}
+        spaceBetween={20}
+        slidesPerView={1}
         centeredSlides={true}
+        breakpoints={{
+          760: {
+            slidesPerView: 3,
+            spaceBetween: 50,
+          },
+        }}
       >
         <SwiperSlide>
           <div className="inner">1</div>

@@ -79,7 +79,6 @@ function Location() {
 
     // 마커 중앙 위치
     const mapCneter = () => {
-      console.log("함수호출");
       map_instance.setCenter(Info[Index].latLng);
     };
     window.addEventListener("resize", mapCneter);
