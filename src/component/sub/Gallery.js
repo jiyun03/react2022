@@ -5,12 +5,6 @@ import Masonry from "react-masonry-component";
 import Layout from "../common/Layout";
 
 function Gallery() {
-  const key = "4f2ed95542fa600d1ed1488dd32b341b";
-  const method_interest = "flickr.interestingness.getList";
-  const method_search = "flickr.photos.search";
-  const num = 500;
-  const url_interest = `https://www.flickr.com/services/rest/?method=${method_interest}&api_key=${key}&per_page=${num}&format=json&nojsoncallback=1`;
-  const url_search = `https://www.flickr.com/services/rest/?method=${method_search}&api_key=${key}&per_page=${num}&tags=${"ocean"}&format=json&nojsoncallback=1`;
   const frame = useRef(null);
   const masonryOption = {
     transitionDuration: "0.5s",
@@ -19,8 +13,30 @@ function Gallery() {
   const [Items, setItems] = useState([]);
   const [Loading, setLoading] = useState(true);
   const [EnableClick, setEnableClick] = useState(false);
+  const input = useRef(null);
 
-  const getFlickr = async (url) => {
+  const interest_type = {
+    type: "interest",
+    count: 50,
+  };
+
+  const search_type = {
+    type: "search",
+    count: 50,
+    tags: "바다",
+  };
+
+  const getFlickr = async (opt) => {
+    const key = "4f2ed95542fa600d1ed1488dd32b341b";
+    const method_interest = "flickr.interestingness.getList";
+    const method_search = "flickr.photos.search";
+    let url = "";
+    if (opt.type === "interest") {
+      url = `https://www.flickr.com/services/rest/?method=${method_interest}&api_key=${key}&per_page=${opt.count}&format=json&nojsoncallback=1`;
+    } else if (opt.type === "search") {
+      url = `https://www.flickr.com/services/rest/?method=${method_search}&api_key=${key}&per_page=${opt.count}&tags=${opt.tags}&format=json&nojsoncallback=1`;
+    }
+
     await axios.get(url).then((json) => {
       console.log(json.data.photos.photo);
       setItems(json.data.photos.photo);
@@ -33,7 +49,7 @@ function Gallery() {
   };
 
   useEffect(() => {
-    getFlickr(url_search);
+    getFlickr(interest_type);
   }, []);
 
   return (
@@ -43,7 +59,7 @@ function Gallery() {
           if (!EnableClick) return;
           setLoading(true);
           frame.current.classList.remove("on");
-          getFlickr(url_interest);
+          getFlickr(interest_type);
           setEnableClick(false);
         }}
       >
@@ -54,12 +70,32 @@ function Gallery() {
           if (!EnableClick) return;
           setLoading(true);
           frame.current.classList.remove("on");
-          getFlickr(url_search);
+          getFlickr(search_type);
           setEnableClick(false);
         }}
       >
         Search Gallery
       </button>
+      <div className="searchBox">
+        <input type="text" ref={input} />
+        <button
+          onClick={() => {
+            if (!EnableClick) return;
+            setEnableClick(false);
+            setLoading(true);
+            frame.current.classList.remove("on");
+
+            const result = input.current.value;
+            getFlickr({
+              type: "search",
+              count: 50,
+              tags: result,
+            });
+          }}
+        >
+          search
+        </button>
+      </div>
       {Loading && (
         <img
           className="loading"
