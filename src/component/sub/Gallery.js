@@ -48,53 +48,46 @@ function Gallery() {
     }, 1000);
   };
 
+  const showInterest = () => {
+    if (!EnableClick) return;
+    setLoading(true);
+    frame.current.classList.remove("on");
+    getFlickr({
+      type: "interest",
+      count: 50,
+    });
+    setEnableClick(false);
+  };
+
+  const showSearch = () => {
+    const result = input.current.value.trim();
+    if (!result) {
+      return alert("검색어를 입력하세요");
+    }
+    if (!EnableClick) return;
+    setEnableClick(false);
+    setLoading(true);
+    frame.current.classList.remove("on");
+
+    getFlickr({
+      type: "search",
+      count: 50,
+      tags: result,
+    });
+
+    input.current.value = "";
+  };
+
   useEffect(() => {
     getFlickr(interest_type);
   }, []);
 
   return (
     <Layout name={"Gallery"}>
-      <button
-        onClick={() => {
-          if (!EnableClick) return;
-          setLoading(true);
-          frame.current.classList.remove("on");
-          getFlickr(interest_type);
-          setEnableClick(false);
-        }}
-      >
-        Interest Gallery
-      </button>
-      <button
-        onClick={() => {
-          if (!EnableClick) return;
-          setLoading(true);
-          frame.current.classList.remove("on");
-          getFlickr(search_type);
-          setEnableClick(false);
-        }}
-      >
-        Search Gallery
-      </button>
+      <button onClick={showInterest}>Interest Gallery</button>
       <div className="searchBox">
         <input type="text" ref={input} />
-        <button
-          onClick={() => {
-            if (!EnableClick) return;
-            setEnableClick(false);
-            setLoading(true);
-            frame.current.classList.remove("on");
-
-            const result = input.current.value;
-            getFlickr({
-              type: "search",
-              count: 50,
-              tags: result,
-            });
-          }}
-        >
-          search
-        </button>
+        <button onClick={showSearch}>search</button>
       </div>
       {Loading && (
         <img
