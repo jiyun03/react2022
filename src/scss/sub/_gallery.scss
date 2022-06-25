@@ -1,9 +1,16 @@
 .Gallery {
+  .loading {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+  }
   figure {
     background: lightskyblue;
   }
 
-  .motion {
+  article {
     transform: translateY(100px);
     opacity: 0;
     transition: 1s;
@@ -49,5 +56,23 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1179px) {
+  .Gallery article ul li {
+    width: 33.333%;
+  }
+}
+
+@media screen and (max-width: 779px) {
+  .Gallery article ul li {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .Gallery article ul li {
+    width: 100%;
   }
 }

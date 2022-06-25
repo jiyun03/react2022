@@ -8,7 +8,7 @@ function Gallery() {
   const key = "4f2ed95542fa600d1ed1488dd32b341b";
   const method_interest = "flickr.interestingness.getList";
   const method_search = "flickr.photos.search";
-  const num = 50;
+  const num = 500;
   const url_interest = `https://www.flickr.com/services/rest/?method=${method_interest}&api_key=${key}&per_page=${num}&format=json&nojsoncallback=1`;
   const url_search = `https://www.flickr.com/services/rest/?method=${method_search}&api_key=${key}&per_page=${num}&tags=${"ocean"}&format=json&nojsoncallback=1`;
   const frame = useRef(null);
@@ -17,13 +17,19 @@ function Gallery() {
   };
 
   const [Items, setItems] = useState([]);
+  const [Loading, setLoading] = useState(true);
+  const [EnableClick, setEnableClick] = useState(false);
 
   const getFlickr = async (url) => {
     await axios.get(url).then((json) => {
       console.log(json.data.photos.photo);
       setItems(json.data.photos.photo);
     });
-    frame.current.classList.add("on");
+    setTimeout(() => {
+      frame.current.classList.add("on");
+      setLoading(false);
+      setEnableClick(true);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -34,21 +40,33 @@ function Gallery() {
     <Layout name={"Gallery"}>
       <button
         onClick={() => {
+          if (!EnableClick) return;
+          setLoading(true);
           frame.current.classList.remove("on");
           getFlickr(url_interest);
+          setEnableClick(false);
         }}
       >
         Interest Gallery
       </button>
       <button
         onClick={() => {
+          if (!EnableClick) return;
+          setLoading(true);
           frame.current.classList.remove("on");
           getFlickr(url_search);
+          setEnableClick(false);
         }}
       >
         Search Gallery
       </button>
-      <div className="motion" ref={frame}>
+      {Loading && (
+        <img
+          className="loading"
+          src={process.env.PUBLIC_URL + "/img/loading.gif"}
+        />
+      )}
+      <article ref={frame}>
         <Masonry elementType={"ul"} options={masonryOption}>
           {Items.map((item) => {
             return (
@@ -66,8 +84,7 @@ function Gallery() {
             );
           })}
         </Masonry>
-      </div>
-      <p>Gallery</p>
+      </article>
     </Layout>
   );
 }
