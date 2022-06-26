@@ -86,7 +86,17 @@ function Gallery() {
     <Layout name={"Gallery"}>
       <button onClick={showInterest}>Interest Gallery</button>
       <div className="searchBox">
-        <input type="text" ref={input} />
+        <input
+          type="text"
+          ref={input}
+          onKeyUp={(e) => {
+            // if (e.keyCode === "13") {
+            //   console.log("keycode");
+            // }
+
+            if (e.key === "Enter") showSearch();
+          }}
+        />
         <button onClick={showSearch}>search</button>
       </div>
       {Loading && (
