@@ -30,15 +30,20 @@ function Gallery() {
     const key = "4f2ed95542fa600d1ed1488dd32b341b";
     const method_interest = "flickr.interestingness.getList";
     const method_search = "flickr.photos.search";
+    const method_user = "flickr.people.getPhotos";
     let url = "";
     if (opt.type === "interest") {
       url = `https://www.flickr.com/services/rest/?method=${method_interest}&api_key=${key}&per_page=${opt.count}&format=json&nojsoncallback=1`;
     } else if (opt.type === "search") {
       url = `https://www.flickr.com/services/rest/?method=${method_search}&api_key=${key}&per_page=${opt.count}&tags=${opt.tags}&format=json&nojsoncallback=1`;
+    } else if (opt.type === "user") {
+      url = `https://www.flickr.com/services/rest/?method=${method_user}&api_key=${key}&per_page=${opt.count}&user_id=${opt.user}&format=json&nojsoncallback=1`;
     }
 
     await axios.get(url).then((json) => {
       console.log(json.data.photos.photo);
+      if (json.data.photos.photo.length === 0)
+        return alert("해당 검색어의 결과가 없습니다.");
       setItems(json.data.photos.photo);
     });
     setTimeout(() => {
@@ -118,6 +123,19 @@ function Gallery() {
                     />
                   </div>
                   <h2>{item.title}</h2>
+                  <div className="profile">
+                    <img
+                      src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+                      alt={item.owner}
+                      onError={(e) =>
+                        e.target.setAttribute(
+                          "src",
+                          "https://www.flickr.com/images/buddyicon.gif"
+                        )
+                      }
+                    />
+                    <span>{item.owner}</span>
+                  </div>
                 </div>
               </li>
             );
