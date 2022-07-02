@@ -16,7 +16,26 @@ import Join from "./component/sub/Join";
 import { Route, Switch } from "react-router-dom";
 import "./scss/style.scss";
 
+import { useEffect } from "react";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setYoutube } from "./redux/action";
+
 function App() {
+  const dispatch = useDispatch();
+  const fetchYoutube = async () => {
+    const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
+    const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
+    const num = 5;
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+
+    await axios.get(url).then((json) => {
+      dispatch(setYoutube(json.data.items));
+    });
+  };
+
+  useEffect(fetchYoutube, []);
+
   return (
     <>
       <Switch>

@@ -1,12 +1,17 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useRef, useEffect } from "react";
 
+import { useSelector } from "react-redux";
+
 function Vids() {
   const cursor = useRef(null);
+
+  const { youtube } = useSelector((store) => store.youtubeReducer);
+
   const mouseMove = (e) => {
     cursor.current.style.left = e.clientX + "px";
     cursor.current.style.top = e.clientY + "px";
@@ -22,8 +27,12 @@ function Vids() {
       <Swiper
         navigation={true}
         pagination={{ clickable: true }}
-        modules={[Navigation, Pagination]}
-        loop={true}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        loop={false}
         spaceBetween={20}
         slidesPerView={1}
         centeredSlides={true}
@@ -34,21 +43,27 @@ function Vids() {
           },
         }}
       >
-        {[0, 1, 2, 3, 4, 5].map((num) => {
+        {youtube.map((vid, idx) => {
+          if (idx > 5) return;
           return (
-            <SwiperSlide key={num}>
+            <SwiperSlide key={vid.id}>
               <div
                 className="inner"
                 onMouseEnter={() =>
                   (cursor.current.style =
-                    "transform: translate(-50%, -50%) scale(3)")
+                    "transform: translate(-50%, -50%) scale(3) ")
                 }
                 onMouseLeave={() =>
                   (cursor.current.style =
-                    "transform: translate(-50%, -50%) scale(1)")
+                    "transform: translate(-50%, -50%) scale(1)  ")
                 }
               >
-                {num + 1}
+                <div className="pic">
+                  <img
+                    src={vid.snippet.thumbnails.standard.url}
+                    alt={vid.snippet.title}
+                  />
+                </div>
               </div>
             </SwiperSlide>
           );
