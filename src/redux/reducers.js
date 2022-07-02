@@ -1,11 +1,11 @@
+import { combineReducers } from "redux";
+
 /*
   Reducer: 전역공간의 데이터인 store에 초기 데이터를 전달해주거나 기존 데이터를 변경해준다 (변경자)
 */
 
-import { combineReducers } from "redux";
-
 const initMember = {
-  member: [
+  members: [
     {
       name: "Julia",
       position: "CEO",
@@ -37,7 +37,7 @@ const initMember = {
 /*
   초기데이터를 state에 저장했다가
   추후 action 객체가 전달되면
-  action 객체의 타입에 까자 리본 데이터를 변경해서 return
+  action 객체의 타입에 따라 기존 데이터를 변경해서 return
 
   따로 state가 없으면 initMember를 초기값으로 쓴다.
 */

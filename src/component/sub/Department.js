@@ -4,7 +4,7 @@ import Layout from "../common/Layout";
 
 import { useSelector } from "react-redux";
 
-// const path = process.env.PUBLIC_URL;
+const path = process.env.PUBLIC_URL;
 
 function Department() {
   // const [members, setMembers] = useState([]);
@@ -19,7 +19,7 @@ function Department() {
   return (
     <Layout name={"Department"}>
       <div className="wrap">
-        {/* {members.map((mem, idx) => {
+        {members.map((mem, idx) => {
           return (
             <article key={idx}>
               <div className="inner">
@@ -31,7 +31,7 @@ function Department() {
               </div>
             </article>
           );
-        })} */}
+        })}
       </div>
     </Layout>
   );
