@@ -25,7 +25,7 @@ const path = process.env.PUBLIC_URL;
 
 function App() {
   const dispatch = useDispatch();
-  const dispatchMember = useDispatch();
+
   const fetchYoutube = async () => {
     const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
     const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
@@ -39,7 +39,7 @@ function App() {
 
   const fetchMembers = async () => {
     await axios.get(`${path}/DB/member.json`).then((json) => {
-      dispatchMember(setMembers(json.data.members));
+      dispatch(setMembers(json.data.members));
     });
   };
 
