@@ -14,5 +14,18 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+    <script>
+      /*
+        Generator 함수
+        Wrapping 함수 안쪽에서 복수개의 함수들을 순차적으로 호출하면서 여러개의 return 값을 반환하는 함수이다.
+
+        사용방법
+        - Wrapping 함수 function문 뒤에 별표(*) 추가
+        - 그 안쪽의 자식 함수 호출문 앞에 yield문 추가
+        - 해당 Wrapping 함수의 return 값으로 iterable 객체(반복 가능한 객체)를 반환한다.
+        - 반환된 iterable 객체에 .next() 메서드를 이요해서 순차적으로 호출 가능하다.
+      */
+    </script>
   </body>
 </html>
