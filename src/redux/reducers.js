@@ -4,6 +4,10 @@ import { combineReducers } from "redux";
   Reducer: 전역공간의 데이터인 store에 초기 데이터를 전달해주거나 기존 데이터를 변경해준다 (변경자)
 */
 
+/*
+reducer에 상수 값으로 member 데이터를 연결하는 것이 아닌 youtube 처럼 public > DB 안쪽의 member.json 데이터를
+비동기 서버 통신 해서 상태 관리 하도록 수정한다.
+
 const initMember = {
   members: [
     {
@@ -33,6 +37,7 @@ const initMember = {
     },
   ],
 };
+*/
 
 /*
   초기데이터를 state에 저장했다가
@@ -41,7 +46,7 @@ const initMember = {
 
   따로 state가 없으면 initMember를 초기값으로 쓴다.
 */
-const memberReducer = (state = initMember, action) => {
+const memberReducer = (state = { members: [] }, action) => {
   switch (action.type) {
     case "SET_MEMBERS":
       return { ...state, members: action.payload };

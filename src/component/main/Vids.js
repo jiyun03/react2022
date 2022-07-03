@@ -3,32 +3,52 @@ import { Autoplay, Navigation, Pagination } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { useRef, useEffect } from "react";
-
+import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import Popup from "../common/Popup";
 
 function Vids() {
   const cursor = useRef(null);
+  const frame = useRef(null);
+
+  const [Index, setIndex] = useState(0);
+  const pop = useRef(null);
+
+  let isCursor = false;
+
+  const handlePopup = (index) => {
+    setIndex(index);
+    pop.current.open();
+  };
 
   const { youtube } = useSelector((store) => store.youtubeReducer);
 
   const mouseMove = (e) => {
+    if (isCursor !== true) return;
     cursor.current.style.left = e.clientX + "px";
     cursor.current.style.top = e.clientY + "px";
   };
 
   useEffect(() => {
     window.addEventListener("mousemove", mouseMove);
+    frame.current.addEventListener("mousemove", () => {
+      isCursor = true;
+      cursor.current.style.display = "block";
+    });
+    frame.current.addEventListener("mouseleave", () => {
+      isCursor = false;
+      cursor.current.style.display = "none";
+    });
     return () => window.removeEventListener("mousemove", mouseMove);
   }, []);
 
   return (
-    <section id="vids" className="myScroll">
+    <section id="vids" className="myScroll" ref={frame}>
       <Swiper
         navigation={true}
         pagination={{ clickable: true }}
         autoplay={{
-          delay: 2500,
+          delay: 3000,
           disableOnInteraction: false,
         }}
         modules={[Autoplay, Pagination, Navigation]}
@@ -46,7 +66,7 @@ function Vids() {
         {youtube.map((vid, idx) => {
           if (idx > 5) return;
           return (
-            <SwiperSlide key={vid.id}>
+            <SwiperSlide key={vid.id} onClick={() => handlePopup(idx)}>
               <div
                 className="inner"
                 onMouseEnter={() =>
@@ -69,6 +89,14 @@ function Vids() {
           );
         })}
       </Swiper>
+      <Popup ref={pop}>
+        {youtube.length !== 0 && (
+          <iframe
+            src={`https://www.youtube.com/embed/${youtube[Index].snippet.resourceId.videoId}`}
+            frameBorder="0"
+          ></iframe>
+        )}
+      </Popup>
       <div className="cursor" ref={cursor}></div>
     </section>
   );

@@ -19,10 +19,13 @@ import "./scss/style.scss";
 import { useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setYoutube } from "./redux/action";
+import { setYoutube, setMembers } from "./redux/action";
+
+const path = process.env.PUBLIC_URL;
 
 function App() {
   const dispatch = useDispatch();
+  const dispatchMember = useDispatch();
   const fetchYoutube = async () => {
     const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
     const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
@@ -34,7 +37,16 @@ function App() {
     });
   };
 
-  useEffect(fetchYoutube, []);
+  const fetchMembers = async () => {
+    await axios.get(`${path}/DB/member.json`).then((json) => {
+      dispatchMember(setMembers(json.data.members));
+    });
+  };
+
+  useEffect(() => {
+    fetchYoutube();
+    fetchMembers();
+  }, []);
 
   return (
     <>

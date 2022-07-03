@@ -12,7 +12,7 @@ function Department() {
 
   // useEffect(() => {
   //   axios.get(`${path}/DB/member.json`).then((json) => {
-  //     setMembers(json.data.member);
+  //     setMembers(json.data.members);
   //   });
   // }, []);
 
