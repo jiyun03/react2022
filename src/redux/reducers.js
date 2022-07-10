@@ -74,6 +74,9 @@ const flickrReducer = (state = { flickr: [] }, action) => {
     case "FLICKR_SUCCESS":
       return { ...state, flickr: action.payload };
 
+    case "FLICKR_ERROR":
+      return { ...state, error: action.payload };
+
     default:
       return state;
   }

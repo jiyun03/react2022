@@ -31,7 +31,7 @@ export const setYoutube = (data) => {
 
 /*
   redux 작업 흐름
-  - 컴포넌트에서 axios 데이터 요청을 해서 반환된 경과 값을 action 생성함수를 통해 dispatch로 해당 액션 객체를 리듀서에 전달한다.
+  - 컴포넌트에서 axios 데이터 요청을 해서 반환된 결과값을 action 생성함수를 통해 dispatch로 해당 액션 객체를 리듀서에 전달한다.
   - 리듀서는 액션 객체를 인수로 받아서 type에 따라 데이터를 변형한 뒤, 스토어에 전달한다.
   - 스토어는 이듀서로부터 전달 받은 state 정보 값을 store에 저장하고 index.js를 통해서 Provide로 루트 컴포넌트 App에 데이터를 전달한다.
   - 각 자식 컴포넌트는 useSelector 를 통해서 store 데이터를 전달 받아 출력한다.
