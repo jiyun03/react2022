@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import * as types from "./actionType";
 
 /*
   Reducer: 전역공간의 데이터인 store에 초기 데이터를 전달해주거나 기존 데이터를 변경해준다 (변경자)
@@ -48,11 +49,11 @@ const initMember = {
 */
 const memberReducer = (state = { members: [] }, action) => {
   switch (action.type) {
-    case "MEMBER_START":
+    case types.MEMBER.start:
       return { ...state };
-    case "MEMBER_SUCCESS":
+    case types.MEMBER.success:
       return { ...state, members: action.payload };
-    case "MEMBER_ERROR":
+    case types.MEMBER.err:
       return { ...state, members: action.payload };
 
     default:
@@ -62,11 +63,11 @@ const memberReducer = (state = { members: [] }, action) => {
 
 const youtubeReducer = (state = { youtube: [] }, action) => {
   switch (action.type) {
-    case "YOUTUBE_START":
+    case types.YOUTUBE.start:
       return { ...state };
-    case "YOUTUBE_SUCCESS":
+    case types.YOUTUBE.success:
       return { ...state, youtube: action.payload };
-    case "YOUTUBE_ERROR":
+    case types.YOUTUBE.err:
       return { ...state, youtube: action.payload };
 
     default:
@@ -76,13 +77,13 @@ const youtubeReducer = (state = { youtube: [] }, action) => {
 
 const flickrReducer = (state = { flickr: [] }, action) => {
   switch (action.type) {
-    case "FLICKR_START":
+    case types.FLICKR.start:
       return { ...state };
 
-    case "FLICKR_SUCCESS":
+    case types.FLICKR.success:
       return { ...state, flickr: action.payload };
 
-    case "FLICKR_ERROR":
+    case types.FLICKR.err:
       return { ...state, error: action.payload };
 
     default:

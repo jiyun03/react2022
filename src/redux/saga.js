@@ -8,20 +8,24 @@
 
 import { takeLatest, all, put, fork, call } from "redux-saga/effects";
 import { fetchFlickr, fetchMember, fetchYoutube } from "./api";
+import * as types from "./actionType";
 
 // 컴포넌트에서 받은 인수값을 api.js에 있는 axios 함수에 연결하는 함수
 export function* returnFlickr(action) {
   try {
     const response = yield call(fetchFlickr, action.Opt);
-    yield put({ type: "FLICKR_SUCCESS", payload: response.data.photos.photo });
+    yield put({
+      type: types.FLICKR.success,
+      payload: response.data.photos.photo,
+    });
   } catch (err) {
-    yield put({ type: "FLICKR_ERROR", payload: err });
+    yield put({ type: types.FLICKR.err, payload: err });
   }
 }
 
 // 요청 받은 액션 타입에 따라 함수 호출
 export function* callFlickr() {
-  yield takeLatest("FLICKR_START", returnFlickr);
+  yield takeLatest(types.FLICKR.start, returnFlickr);
 }
 
 // reducer에 적용될 rootSaga 생성함수를 내보낸다.
@@ -31,15 +35,15 @@ export function* callFlickr() {
 
 // member saga
 export function* callMember() {
-  yield takeLatest("MEMBER_START", returnMember);
+  yield takeLatest(types.MEMBER.start, returnMember);
 }
 
 export function* returnMember() {
   try {
     const response = yield call(fetchMember);
-    yield put({ type: "MEMBER_SUCCESS", payload: response.data.members });
+    yield put({ type: types.MEMBER.success, payload: response.data.members });
   } catch (err) {
-    yield put({ type: "MEMBER_ERROR", payload: err });
+    yield put({ type: types.MEMBER.err, payload: err });
   }
 }
 
@@ -49,15 +53,15 @@ export function* returnMember() {
 
 // youtube saga
 export function* callYoutube() {
-  yield takeLatest("MEMBER_START", returnYoutube);
+  yield takeLatest(types.MEMBER.start, returnYoutube);
 }
 
 export function* returnYoutube() {
   try {
     const response = yield call(fetchYoutube);
-    yield put({ type: "YOUTUBE_SUCCESS", payload: response.data.items });
+    yield put({ type: types.YOUTUBE.success, payload: response.data.items });
   } catch (err) {
-    yield put({ type: "YOUTUBE_ERROR", payload: err });
+    yield put({ type: types.YOUTUBE.err, payload: err });
   }
 }
 
