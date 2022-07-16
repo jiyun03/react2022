@@ -22,3 +22,17 @@ export const fetchFlickr = async (opt) => {
 
   return await axios.get(url);
 };
+
+export const fetchMember = async () => {
+  const url = `${process.env.PUBLIC_URL}/DB/member.json`;
+  return await axios.get(url);
+};
+
+export const fetchYoutube = async () => {
+  const key = "AIzaSyCCs-4zoiklCU1ygt2QFrB2Jy7nrfJc-dY";
+  const playlist = "PL4wM-rifmHleEgufghHbslM5lnMBYdz1v";
+  const num = 5;
+  const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&key=${key}&playlistId=${playlist}&maxResults=${num}`;
+
+  return await axios.get(url);
+};

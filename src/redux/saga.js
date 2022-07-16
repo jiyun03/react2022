@@ -7,7 +7,7 @@
 */
 
 import { takeLatest, all, put, fork, call } from "redux-saga/effects";
-import { fetchFlickr } from "./api";
+import { fetchFlickr, fetchMember, fetchYoutube } from "./api";
 
 // 컴포넌트에서 받은 인수값을 api.js에 있는 axios 함수에 연결하는 함수
 export function* returnFlickr(action) {
@@ -25,6 +25,42 @@ export function* callFlickr() {
 }
 
 // reducer에 적용될 rootSaga 생성함수를 내보낸다.
+// export default function* rootSaga() {
+//   yield all([fork(callFlickr)]);
+// }
+
+// member saga
+export function* callMember() {
+  yield takeLatest("MEMBER_START", returnMember);
+}
+
+export function* returnMember() {
+  try {
+    const response = yield call(fetchMember);
+    yield put({ type: "MEMBER_SUCCESS", payload: response.data.members });
+  } catch (err) {
+    yield put({ type: "MEMBER_ERROR", payload: err });
+  }
+}
+
+// export default function* rootSaga() {
+//   yield all([fork(callFlickr), fork(callMember)]);
+// }
+
+// youtube saga
+export function* callYoutube() {
+  yield takeLatest("MEMBER_START", returnYoutube);
+}
+
+export function* returnYoutube() {
+  try {
+    const response = yield call(fetchYoutube);
+    yield put({ type: "YOUTUBE_SUCCESS", payload: response.data.items });
+  } catch (err) {
+    yield put({ type: "YOUTUBE_ERROR", payload: err });
+  }
+}
+
 export default function* rootSaga() {
-  yield all([fork(callFlickr)]);
+  yield all([fork(callFlickr), fork(callMember), fork(callYoutube)]);
 }
