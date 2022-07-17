@@ -20,7 +20,7 @@ const memberSlice = createSlice({
     [fetchMember.pending]: (state) => {
       state.isLoading = true;
     },
-    [fetchMember.fulfilled]: (state) => {
+    [fetchMember.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.data = action.payload;
     },

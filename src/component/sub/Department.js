@@ -8,7 +8,7 @@ const path = process.env.PUBLIC_URL;
 
 function Department() {
   // const [members, setMembers] = useState([]);
-  const { members } = useSelector((store) => store.memberReducer);
+  const members = useSelector((store) => store.member.data);
 
   // useEffect(() => {
   //   axios.get(`${path}/DB/member.json`).then((json) => {

@@ -28,7 +28,7 @@ function News() {
     localStorage.setItem("post", JSON.stringify(Posts));
   }, []);
 
-  const members = useSelector((store) => store.memberReducer.members);
+  const members = useSelector((store) => store.member.data);
 
   return (
     <section id="news" className="myScroll">
