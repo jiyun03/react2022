@@ -9,12 +9,56 @@
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=87798bc5aeb63bfd88129626aef68e31"
     ></script>
+    <style>
+      .default {
+        position: absolute;
+        top: -99999px;
+      }
+      .mask {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: #111;
+        opacity: 1;
+        font: 18px/1 "arial";
+        color: #fff;
+        z-index: 5;
+        transition: opacity 2s;
+      }
+    </style>
   </head>
 
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <div class="default"></div>
+    <div class="mask">LOADING...</div>
+    <script>
+      const baseURL = "https://jiyun03.github.io/react_may";
+      const imgs = [
+        baseURL + "/img/Community.jpg",
+        baseURL + "/img/Department.jpg",
+        baseURL + "/img/Gallery.jpg",
+        baseURL + "/img/Join.jpg",
+        baseURL + "/img/Location.jpg",
+        baseURL + "/img/Youtube.jpg",
+      ];
+      const vids = [
+        baseURL + "/img/vid1.mp4",
+        baseURL + "/img/vid2.mp4",
+        baseURL + "/img/vid3.mp4",
+      ];
+      const lenImg = imgs.length;
+      const lenVid = vids.length;
 
+      const defaults = document.querySelector(".default");
+      const mask = document.querySelector(".mask");
+    </script>
     <!--
     <script>
       Generator 함수
