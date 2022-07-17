@@ -27,8 +27,13 @@
         opacity: 1;
         font: 18px/1 "arial";
         color: #fff;
+        visibility: visible;
         z-index: 5;
-        transition: opacity 2s;
+        transition: opacity 2s, visibility 2s;
+      }
+      .mask.off {
+        opacity: 0;
+        visibility: hidden;
       }
     </style>
   </head>
@@ -63,6 +68,22 @@
       // DOM 생성
       createDOM();
 
+      // Promise.all()로 loadImg, loadVid 함수가 모두 프로미스 객체를 반환 할 때 까지 기다리면서 동기화 처리
+      Promise.all([loadImg(), loadVid()]).then((result) => {
+        // 각 함수의 리턴 값을 비구조화할당으로 변수가 각각 저장한다.
+        console.log(result);
+
+        // 두 개의 값이 모두 true 면 (모든 DOM 소스가 로딩 완료 되면)
+        if (loadImg && loadVid) {
+          console.log("mask-hide");
+          mask.classList.add("off");
+          setTimeout(() => {
+            mask.remove();
+            defaults.remove();
+          }, 2000);
+        }
+      });
+
       // DOM 생성 함수
       function createDOM() {
         imgs.forEach((src) => {
@@ -75,7 +96,7 @@
       }
 
       // 이미지 소스가 모두 로딩되면 프로미스 객체로 true 반환 함수
-      function loadingImg() {
+      function loadImg() {
         return new Promise((res, rej) => {
           let countImg = 0;
           const imgDOM = defaults.querySelectorAll("img");
@@ -93,7 +114,7 @@
       }
 
       // 영상 소스가 모두 로딩되면 프로미스 객체로 true 반환 함수
-      function loadingVid() {
+      function loadVid() {
         return new Promise((res, rej) => {
           let countVid = 0;
           const vidDOM = defaults.querySelectorAll("vidoeo");
@@ -109,8 +130,6 @@
           });
         });
       }
-
-      // 둘다 true일 때 프로미스 객체가 어쩌구
     </script>
     <!--
     <script>
